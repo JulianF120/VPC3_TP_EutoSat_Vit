@@ -3,57 +3,82 @@ import logging
 import os
 import shutil
 from pathlib import Path
+from typing import Optional
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent 
+# Definición de rutas
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_PATH = PROJECT_ROOT / "data" / "raw"
-PROCESSED_PATH = PROJECT_ROOT / "data" / "processed"
+PROCESSED_PATH = PROJECT_ROOT / "data" / "processed" # Se mantiene para consistencia, aunque no se use inmediatamente.
 
 def setup_paths():
+    """Crea o verifica los directorios RAW y PROCESSED."""
     try:
         RAW_PATH.mkdir(parents=True, exist_ok=True)
         PROCESSED_PATH.mkdir(parents=True, exist_ok=True)
-        logging.info(f"Directorios creados/verificados: {RAW_PATH} y {PROCESSED_PATH}")
+        logging.info(f"Directorios verificados: {RAW_PATH} y {PROCESSED_PATH}")
     except Exception as e:
         logging.critical(f"Error al crear directorios: {e}")
         raise
 
 def download_and_process_data():
+    """Descarga el dataset, imprime la estructura y mueve la carpeta EuroSAT a la ruta RAW."""
+    
+    download_root: Optional[Path] = None
     try:
         logging.info("Iniciando descarga del dataset 'apollo2506/eurosat-dataset'.")
-        dataset_download_path = Path(kagglehub.dataset_download("apollo2506/eurosat-dataset"))
-        logging.info(f"Descarga completa. Ruta temporal: {dataset_download_path}")
+        download_root = Path(kagglehub.dataset_download("apollo2506/eurosat-dataset"))
+        logging.info(f"Descarga completa. Ruta temporal raíz: {download_root}")
     except Exception as e:
         logging.error(f"Error durante la descarga de Kaggle: {e}", exc_info=True)
         return
-    eurosat_dir_list = list(dataset_download_path.glob("EuroSAT"))
-    if not eurosat_dir_list:
-            logging.error(f"No se encontró la carpeta 'EuroSAT' en {dataset_download_path}")
-            return
+
+    # --- INICIO DEL DIAGNÓSTICO ---
+    logging.info("Contenido de la carpeta raíz de descarga:")
+    # Imprime el contenido del primer nivel de la carpeta descargada
+    for item in download_root.iterdir():
+        logging.info(f" - {item.name} {'(DIR)' if item.is_dir() else '(FILE)'}")
+        
+    # --- FIN DEL DIAGNÓSTICO ---
+
+    # Buscamos la carpeta 'EuroSAT' o 'EuroSATallBands' de forma recursiva.
+    # Esto maneja cualquier subcarpeta intermedia que KaggleHub pueda crear.
+    eurosat_source_path = None
     
-    eurosat_dir = eurosat_dir_list[0]
+    # 1. Buscamos la carpeta EuroSAT
+    eurosat_list = [p for p in download_root.glob('**/EuroSAT') if p.is_dir()]
+    if eurosat_list:
+        eurosat_source_path = eurosat_list[0]
+        logging.info(f"Encontrada la carpeta 'EuroSAT' en: {eurosat_source_path}")
+    
+    # 2. Si no encontramos EuroSAT, probamos con EuroSATallBands (por si acaso)
+    elif not eurosat_list:
+        eurosat_allbands_list = [p for p in download_root.glob('**/EuroSATallBands') if p.is_dir()]
+        if eurosat_allbands_list:
+            eurosat_source_path = eurosat_allbands_list[0]
+            logging.warning(f"No se encontró 'EuroSAT'. Usando 'EuroSATallBands' en: {eurosat_source_path}")
 
-    for file_path in eurosat_dir.iterdir():
-        file_name = file_path.name
-        
-        if file_name.endswith(".csv"):
-            destination_dir = PROCESSED_PATH
-        else:
-            destination_dir = RAW_PATH
-        
-        destination_path = destination_dir / file_name
 
-        try:
-            shutil.move(file_path, destination_path)
-            logging.debug(f"Movido: {file_name} a {destination_dir.name}")
-        except Exception as e:
-            logging.error(f"Error al mover el archivo {file_name}: {e}", exc_info=True)
-        
-    logging.info("Proceso de descarga y movimiento finalizado.")
+    if not eurosat_source_path:
+        logging.error("¡ERROR FATAL! No se encontraron las carpetas 'EuroSAT' ni 'EuroSATallBands'.")
+        return
+
+    # 3. MOVIMIENTO DE DATOS
+    eurosat_target_path = RAW_PATH / eurosat_source_path.name
+
+    try:
+        logging.info(f"Moviendo la estructura completa de {eurosat_source_path.name} a {RAW_PATH.name}...")
+        shutil.move(eurosat_source_path, eurosat_target_path)
+        logging.info(f"Movimiento finalizado. Dataset guardado en: {eurosat_target_path}")
+
+    except Exception as e:
+        logging.error(f"Error al mover la carpeta {eurosat_source_path.name}: {e}", exc_info=True)
+
+# Asegúrate de usar esta versión de la función en tu archivo `download_dataset.py`.
 
 
 if __name__ == '__main__':
