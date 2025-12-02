@@ -10,6 +10,6 @@ results = model.train(
     batch=64,
     lr0=1e-3,
     patience=5,
-    device=0 if torch.cuda.is_available() else "cpu"
+    device=0 if torch.cuda.is_available() else "cpu",
     project='/home/timstark/GitHub/new/VPC3_TP_EutoSat_Vit/VPC3_TP_EutoSat_Vit/models/YOLO-eurosat-model'
 )
