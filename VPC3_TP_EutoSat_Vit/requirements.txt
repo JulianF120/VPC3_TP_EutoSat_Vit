@@ -11,3 +11,5 @@ kagglehub
 requests
 urllib3
 six
+seaborn
+matplotlib
