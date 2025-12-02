@@ -90,7 +90,7 @@ A continuación se presentan los resultados visuales obtenidos con el modelo YOL
 #### Matriz de Confusión (YOLO)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](reports/figures/yolo/confusion_matrix.png)
+![Matriz de Confusión](VPC3_TP_EutoSat_Vit/reports/figures/yolo-v8)
 
 #### Curvas de Entrenamiento (YOLO)
 Gráficos de pérdida (loss) y precisión durante el entrenamiento.
