@@ -10,8 +10,9 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Definición de rutas
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+file_dir = Path(__file__).resolve().parent.parent.parent
+
+PROJECT_ROOT = file_dir
 RAW_PATH = PROJECT_ROOT / "data" / "raw"
 PROCESSED_PATH = PROJECT_ROOT / "data" / "processed" # Se mantiene para consistencia, aunque no se use inmediatamente.
 
@@ -37,25 +38,18 @@ def download_and_process_data():
         logging.error(f"Error durante la descarga de Kaggle: {e}", exc_info=True)
         return
 
-    # --- INICIO DEL DIAGNÓSTICO ---
     logging.info("Contenido de la carpeta raíz de descarga:")
-    # Imprime el contenido del primer nivel de la carpeta descargada
     for item in download_root.iterdir():
         logging.info(f" - {item.name} {'(DIR)' if item.is_dir() else '(FILE)'}")
         
-    # --- FIN DEL DIAGNÓSTICO ---
 
-    # Buscamos la carpeta 'EuroSAT' o 'EuroSATallBands' de forma recursiva.
-    # Esto maneja cualquier subcarpeta intermedia que KaggleHub pueda crear.
     eurosat_source_path = None
     
-    # 1. Buscamos la carpeta EuroSAT
     eurosat_list = [p for p in download_root.glob('**/EuroSAT') if p.is_dir()]
     if eurosat_list:
         eurosat_source_path = eurosat_list[0]
         logging.info(f"Encontrada la carpeta 'EuroSAT' en: {eurosat_source_path}")
     
-    # 2. Si no encontramos EuroSAT, probamos con EuroSATallBands (por si acaso)
     elif not eurosat_list:
         eurosat_allbands_list = [p for p in download_root.glob('**/EuroSATallBands') if p.is_dir()]
         if eurosat_allbands_list:
@@ -67,7 +61,6 @@ def download_and_process_data():
         logging.error("¡ERROR FATAL! No se encontraron las carpetas 'EuroSAT' ni 'EuroSATallBands'.")
         return
 
-    # 3. MOVIMIENTO DE DATOS
     eurosat_target_path = RAW_PATH / eurosat_source_path.name
 
     try:
@@ -77,8 +70,6 @@ def download_and_process_data():
 
     except Exception as e:
         logging.error(f"Error al mover la carpeta {eurosat_source_path.name}: {e}", exc_info=True)
-
-# Asegúrate de usar esta versión de la función en tu archivo `download_dataset.py`.
 
 
 if __name__ == '__main__':
