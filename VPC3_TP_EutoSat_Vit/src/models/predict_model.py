@@ -45,8 +45,8 @@ if (PROJECT_ROOT.name == "models") or (PROJECT_ROOT.name == "src"):
 logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
 
 # Rutas del proyecto
-CSV_DIR = PROJECT_ROOT / "src" / "data" / "data" / "processed"
-IMAGE_DIR = PROJECT_ROOT / "data" / "raw"
+CSV_DIR = PROJECT_ROOT / "data" / "raw" / "EuroSAT" / "EuroSAT"
+IMAGE_DIR = PROJECT_ROOT / "data" / "raw" / "EuroSAT" / "EuroSAT"
 LABELS_MAP = IMAGE_DIR / "label_map.json"
 MODEL_DIR = PROJECT_ROOT / "models" / "vit-eurosat-model" / "best"
 FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
