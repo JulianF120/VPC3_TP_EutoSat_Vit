@@ -90,12 +90,12 @@ A continuación se presentan los resultados visuales obtenidos con el modelo YOL
 #### Matriz de Confusión (YOLO)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](VPC3_TP_EutoSat_Vit/reports/figures/yolo-v8)
+![Matriz de Confusión](/reports/figures/yolo-v8/confusion_matrix_normalized.png)
 
-#### Curvas de Entrenamiento (YOLO)
-Gráficos de pérdida (loss) y precisión durante el entrenamiento.
+#### Recall por Clase (YOLO)
+Grafico de barras que muestra el recall por clase.
 
-![Resultados de Entrenamiento](figures/yolo/loss.png)
+![Recall por Clase](/reports/figures/yolo-v8/per_class_recall.png)
 
 ### Resultados de ViT Base
 A continuación se presentan los resultados visuales obtenidos con el modelo ViT Base.
@@ -103,12 +103,12 @@ A continuación se presentan los resultados visuales obtenidos con el modelo ViT
 #### Matriz de Confusión (ViT Base)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](figures/vit_base/confusion_matrix.png)
+![Matriz de Confusión](/reports/figures/vit-base/confusion_matrix.png)
 
-#### Curvas de Entrenamiento (ViT Base)
-Gráficos de pérdida (loss) y precisión durante el entrenamiento.
+#### Recall por Clase (ViT Base)
+Grafico de barras que muestra el recall por clase.
 
-![Resultados de Entrenamiento](figures/vit_base/loss.png)
+![Recall por Clase](/reports/figures/vit-base/per_class_recall.png)
 
 ### Resultados de ViT Tiny
 A continuación se presentan los resultados visuales obtenidos con el modelo ViT Tiny.
@@ -116,12 +116,12 @@ A continuación se presentan los resultados visuales obtenidos con el modelo ViT
 #### Matriz de Confusión (ViT Tiny)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](figures/vit_tiny/confusion_matrix.png)
+![Matriz de Confusión](/reports/figures/vit-tiny/confusion_matrix.png)
 
-#### Curvas de Entrenamiento (ViT Tiny)
-Gráficos de pérdida (loss) y precisión durante el entrenamiento.
+#### Recall por Clase (ViT Tiny)
+Grafico de barras que muestra el recall por clase.
 
-![Resultados de Entrenamiento](figures/vit_tiny/loss.png)
+![Recall por Clase](/reports/figures/vit-tiny/per_class_recall.png)
 
 ## 6. Conclusiones y Mejoras Futuras
 
@@ -150,6 +150,6 @@ Estado actual y planificación de tareas para el equipo de desarrollo.
 | **Entrenamiento de Modelos** | Julián - Amilcar | Completado | Alta |
 | **Evaluación y Comparación** | Jorge | En Progreso | Media |
 | **Generación de Informe Técnico** | Jorge - Julián | En Progreso | Media |
-| **Optimización de Hiperparámetros** | Equipo ML | Pendiente | Baja |
-| **Despliegue de API** | Equipo DevOps | Pendiente | Baja |
+| **Optimización de Hiperparámetros** | -- | Pendiente | Baja |
+| **Despliegue de API** | -- | Pendiente | Baja |
 
