@@ -19,6 +19,7 @@ Entrenar y evaluar un modelo de clasificación de imágenes que distinga entre d
 Para ejecutar este proyecto necesitas tener instalado:
 
 - **Python 3.12** (Versión probada y recomendada).
+- **Git LFS**: Para clonar correctamente los archivos .safetensors y .bin.
 
 ## 🚀 Instalación
 
