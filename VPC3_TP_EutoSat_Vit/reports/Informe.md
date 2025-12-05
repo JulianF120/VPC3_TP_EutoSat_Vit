@@ -80,7 +80,7 @@ La evaluación de los modelos se realiza principalmente mediante la métrica de 
 | :------------------------- | :----: | :-----------: | :------------------: | :-----: | :------------: | :--------------: | :----------------------------------------------- |
 | **YOLOv8n-cls (Nano)**     | **42** |  **2.91 MB**  |      **6.10 ms**     |  **56** |  **1,451,098** |    **0.9700**    | Entrenamiento rápido. Menos de 10 minutos de entrenamiento. RTX3080 Ti 12GB VRAM          |
 | **YOLOv8l-cls (Large)**    | **27** |  **70.90 MB** |     **35.24 ms**     |  **54** | **36,197,386** |    **0.9785**    | Entrenamiento rápido. Menos de 15 minutos de entrenamiento. RTX3080 Ti 12GB VRAM |
-| **ViT Tiny**               | **15** |       —       |           —          |    —    |        —       |    **0.9874**    | Modelo liviano (~3 h entrenamiento).             |
+| **ViT Tiny**               | **15** |  **21.11 MB** |      **6.22 ms**     |  **12** |  **5,526,346** |    **0.9874**    | Modelo liviano (~3 h entrenamiento).             |
 | **ViT Base (Transformer)** | **50** | **335.20 MB** |     **33.51 ms**     | **214** | **85,806,346** |    **0.9885**    | Entrenamiento muy lento (~14 h).   
 
 
