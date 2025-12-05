@@ -41,7 +41,8 @@ graph TD
     *   Normalización de píxeles.
     *   División en conjuntos de entrenamiento, validación y prueba.
 *   **Modelos**:
-    *   **YOLOv8n-cls**: Modelo de clasificación de Ultralytics, optimizado para velocidad y eficiencia.
+    *   **YOLOv8n-cls**: Modelo ligero de clasificación de Ultralytics, optimizado para velocidad y eficiencia.
+    *   **YOLOv8l-cls**: Modelo mediano de clasificación de Ultralytics, optimizado para velocidad y eficiencia.
     *   **ViT (Vision Transformer)**: Modelos basados en la arquitectura Transformer (Base y Tiny) de Hugging Face, que procesan imágenes como secuencias de parches.
 *   **Entrenamiento**: Scripts dedicados para ajustar los pesos de los modelos utilizando los datos procesados.
 *   **Evaluación**: Cálculo de métricas de precisión (Accuracy) y generación de matrices de confusión.
@@ -75,27 +76,41 @@ La evaluación de los modelos se realiza principalmente mediante la métrica de 
 
 ### Métricas de Desempeño:
 
-| Modelo | Epocas | Accuracy (Top-1) | Accuracy (Top-3) | Observaciones |
-| :--- | :--- | :--- | :--- | :--- |
-| **YOLOv8n-cls** | 5 | **96.0%** | **99.96%** | Entrenamiento rápido, alta precisión. Menos de 10 minutos de entrenamiento. |
-| **ViT Base** | 50 | **0.9885** | **0.9993** | Entrenamiento más lento, arquitectura compleja. Aproximadamente 14 horas de entrenamiento. |
-| **ViT Tiny** | 15 | **0.9874** | **0.9985** | Versión ligera de ViT. Aproximadamente 3 horas de entrenamiento. |
+| Modelo                     | Épocas |     Tamaño    | Tiempo de inferencia |  Layers |   Parámetros   | Accuracy | Observaciones                                    |
+| :------------------------- | :----: | :-----------: | :------------------: | :-----: | :------------: | :--------------: | :----------------------------------------------- |
+| **YOLOv8n-cls (Nano)**     | **42** |  **2.91 MB**  |      **6.10 ms**     |  **56** |  **1,451,098** |    **0.9700**    | Entrenamiento rápido. Menos de 10 minutos de entrenamiento. RTX3080 Ti 12GB VRAM          |
+| **YOLOv8l-cls (Large)**    | **27** |  **70.90 MB** |     **35.24 ms**     |  **54** | **36,197,386** |    **0.9785**    | Entrenamiento rápido. Menos de 15 minutos de entrenamiento. RTX3080 Ti 12GB VRAM |
+| **ViT Tiny**               | **15** |       —       |           —          |    —    |        —       |    **0.9874**    | Modelo liviano (~3 h entrenamiento).             |
+| **ViT Base (Transformer)** | **50** | **335.20 MB** |     **33.51 ms**     | **214** | **85,806,346** |    **0.9885**    | Entrenamiento muy lento (~14 h).   
 
 
 ## 5. Resultados y Ejemplos
 
-### Resultados de YOLO
+### Resultados de YOLO Nano
 A continuación se presentan los resultados visuales obtenidos con el modelo YOLO.
 
-#### Matriz de Confusión (YOLO)
+#### Matriz de Confusión (YOLO Nano)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
 ![Matriz de Confusión](figures/yolo-v8/confusion_matrix_normalized.png)
 
-#### Recall por Clase (YOLO)
+#### Recall por Clase (YOLO Nano)
 Grafico de barras que muestra el recall por clase.
 
 ![Recall por Clase](figures/yolo-v8/per_class_recall.png)
+
+### Resultados de YOLO Large
+A continuación se presentan los resultados visuales obtenidos con el modelo YOLO.
+
+#### Matriz de Confusión (YOLO Large)
+La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
+
+![Matriz de Confusión](figures/yolo-large/confusion_matrix_normalized.png)
+
+#### Recall por Clase (YOLO Large)
+Grafico de barras que muestra el recall por clase.
+
+![Recall por Clase](figures/yolo-large/per_class_recall.png)
 
 ### Resultados de ViT Base
 A continuación se presentan los resultados visuales obtenidos con el modelo ViT Base.
@@ -126,10 +141,11 @@ Grafico de barras que muestra el recall por clase.
 ## 6. Conclusiones y Mejoras Futuras
 
 ### Conclusiones:
-*   El modelo **YOLOv8n-cls** demostró ser altamente efectivo para la tarea de clasificación de EuroSat, alcanzando un 96% de precisión en solo 5 épocas.
+*   El modelo **YOLOv8n-cls (Nano)** demostró ser altamente efectivo en la clasificación EuroSat, alcanzando un 97% de precisión tras 42 épocas, con un tamaño extremadamente reducido de **2.91 MB** y un tiempo de inferencia de **6.10 ms**, lo que lo convierte en la opción más eficiente para despliegue en dispositivos de bajos recursos. En contraste, el modelo **YOLOv8l-cls (Large)** ofrece una precisión ligeramente superior (97.85%), pero con un tamaño mayor (**70.90 MB**) y una inferencia más lenta (**35.24 ms**), reflejando el compromiso entre rendimiento y eficiencia computacional.
 *   La arquitectura del proyecto es modular, permitiendo fácil integración de nuevos modelos.
 *   El uso de herramientas como Hugging Face y Ultralytics simplifica significativamente el flujo de trabajo de entrenamiento.
-*   El modelo **ViT Base** demostró ser altamente efectivo para la tarea de clasificación de EuroSat, alcanzando un 98.85% de precisión en solo 50 épocas siendo más lento que el modelo YOLOv8n-cls.
+*   El modelo **ViT Base** alcanzó la mayor precisión del conjunto (**98.85%**), pero con un costo computacional considerable: 335.20 MB, 214 capas, y tiempos de entrenamiento muy prolongados en comparación con los modelos YOLO. Aunque su inferencia (33.51 ms) es comparable a la del YOLO Large.
+
 *   El modelo **ViT Tiny** demostró ser altamente efectivo para la tarea de clasificación de EuroSat, alcanzando un 98.74% de precisión en solo 15 épocas siendo más rápido que el modelo ViT Base. Y con una precisión similar al modelo ViT Base, demostrando que para este problema usar el modelo ViT Tiny es una mejora en términos de velocidad.
 
 ### Mejoras Futuras:
@@ -145,11 +161,10 @@ Estado actual y planificación de tareas para el equipo de desarrollo.
 | Tarea | Responsable | Estado | Prioridad |
 | :--- | :--- | :--- | :--- |
 | **Adquisición y Limpieza de Datos** | Amilcar | Completado | Alta |
-| **Implementación YOLOv8** | Amilcar | Completado | Alta |
+| **Implementación YOLOv8** | Amilcar - Jorge | Completado | Alta |
 | **Implementación ViT (Base/Tiny)** | Julián | Completado | Alta |
-| **Entrenamiento de Modelos** | Julián - Amilcar | Completado | Alta |
+| **Entrenamiento de Modelos** | Julián - Amilcar - Jorge | Completado | Alta |
 | **Evaluación y Comparación** | Jorge | En Progreso | Media |
 | **Generación de Informe Técnico** | Jorge - Julián | En Progreso | Media |
 | **Optimización de Hiperparámetros** | -- | Pendiente | Baja |
 | **Despliegue de API** | -- | Pendiente | Baja |
-
