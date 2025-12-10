@@ -123,7 +123,7 @@ La matriz de confusión muestra el desempeño del modelo en cada una de las clas
 #### Recall por Clase (ViT Base)
 Grafico de barras que muestra el recall por clase.
 
-![Recall por Clase](/figures/vit-base/per_class_recall.png)
+![Recall por Clase](figures/vit-base/per_class_recall.png)
 
 ### Resultados de ViT Tiny
 A continuación se presentan los resultados visuales obtenidos con el modelo ViT Tiny.
