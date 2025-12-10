@@ -118,7 +118,7 @@ A continuación se presentan los resultados visuales obtenidos con el modelo ViT
 #### Matriz de Confusión (ViT Base)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](figures/vit-base/confusion_matrix.png)
+![Matriz de Confusión](figures/vit-base/confusion_matrix_normalized.png)
 
 #### Recall por Clase (ViT Base)
 Grafico de barras que muestra el recall por clase.
@@ -131,7 +131,7 @@ A continuación se presentan los resultados visuales obtenidos con el modelo ViT
 #### Matriz de Confusión (ViT Tiny)
 La matriz de confusión muestra el desempeño del modelo en cada una de las clases. Se observa una diagonal dominante, indicando una alta tasa de aciertos.
 
-![Matriz de Confusión](figures/vit-tiny/confusion_matrix.png)
+![Matriz de Confusión](figures/vit-tiny/confusion_matrix_normalized.png)
 
 #### Recall por Clase (ViT Tiny)
 Grafico de barras que muestra el recall por clase.
